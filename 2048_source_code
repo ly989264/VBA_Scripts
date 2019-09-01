@@ -1,0 +1,322 @@
+Option Explicit
+
+
+Sub init()
+    With ActiveSheet.Range("A1:D4")
+        .Clear
+        .ColumnWidth = 17
+        .RowHeight = 80
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .Font.Size = 25
+        .Borders.LineStyle = xlContinuous
+        .Borders.Weight = xlMedium
+        .Borders.Color = vbBlack
+        .Interior.Color = RGB(153, 153, 153)
+    End With
+    Call add_cell(1, 1, 16)
+    Call add_cell(1, 2, 2)
+    Call add_cell(1, 3, 4)
+    Call add_cell(2, 1, 8)
+    Call add_cell(2, 2, 4)
+    Call add_cell(4, 2, 2)
+End Sub
+
+Private Sub fill_colors(cell As Range)
+    Select Case cell.Value
+    Case 2
+        cell.Interior.Color = RGB(255, 204, 255)
+    Case 4
+        cell.Interior.Color = RGB(255, 204, 204)
+    Case 8
+        cell.Interior.Color = RGB(255, 102, 102)
+    Case 16
+        cell.Interior.Color = RGB(255, 0, 51)
+    Case 32
+        cell.Interior.Color = RGB(102, 0, 255)
+    Case 64
+        cell.Interior.Color = RGB(102, 0, 204)
+    Case 128
+        cell.Interior.Color = RGB(51, 51, 255)
+    Case 256
+        cell.Interior.Color = RGB(51, 0, 153)
+    Case 512
+        cell.Interior.Color = RGB(153, 0, 255)
+    Case 1024
+        cell.Interior.Color = RGB(0, 0, 255)
+    Case 2048
+        cell.Interior.Color = RGB(255, 0, 0)
+    Case Else
+        cell.Interior.Color = RGB(153, 153, 153)
+    End Select
+End Sub
+
+Private Sub add_cell(row_index As Integer, column_index As Integer, val As Integer)
+    If (val = 0) Then
+        ActiveSheet.Cells(row_index, column_index).Value = ""
+    Else
+        ActiveSheet.Cells(row_index, column_index).Value = val
+    End If
+    Call fill_colors(Cells(row_index, column_index))
+    If (val = 2048) Then
+        MsgBox "Congratulations! You complete the game!"
+    End If
+End Sub
+
+Sub press_up()
+    operate (1)
+End Sub
+
+Sub press_down()
+    operate (2)
+End Sub
+
+Sub press_left()
+    operate (3)
+End Sub
+
+Sub press_right()
+    operate (4)
+End Sub
+
+Private Sub generate_new()
+    Dim i As Integer
+    Dim j As Integer
+    i = Int(4 * Rnd) + 1
+    j = Int(4 * Rnd) + 1
+    Do Until (ActiveSheet.Cells(i, j).Value = "")
+        i = Int(4 * Rnd) + 1
+        j = Int(4 * Rnd) + 1
+    Loop
+    ' assign 2 to this cell, in this case, 2 only
+    Call add_cell(i, j, 2)
+End Sub
+
+Private Function check_empty(row_index As Integer, column_index As Integer) As Boolean
+    If (ActiveSheet.Cells(row_index, column_index).Value = "") Then
+        check_empty = True
+    Else
+        check_empty = False
+    End If
+End Function
+
+Private Sub operate(mode As Integer)
+    Dim i As Integer
+    Dim j As Integer
+    
+    Dim arr(1 To 4) As Integer
+    Dim new_arr(1 To 4) As Integer
+    
+    Dim tmp As Integer
+    Dim previous As Integer
+    Dim index As Integer
+    Dim new_index As Integer
+    
+    Dim sensor As Boolean
+    sensor = False
+    
+    Select Case mode
+    Case 1
+        ' up case
+        'Debug.Print "Begin"
+        For j = 1 To 4
+            For i = 1 To 4
+                arr(i) = 0
+                new_arr(i) = 0
+            Next
+            For i = 1 To 4
+                arr(i) = ActiveSheet.Cells(i, j).Value
+                ActiveSheet.Cells(i, j).Value = ""
+                Call fill_colors(ActiveSheet.Cells(i, j))
+            Next
+            previous = 0
+            new_index = 1
+            For index = 1 To 4
+                'Debug.Print arr(index)
+                If (arr(index) = 0) Then
+                    GoTo ContinueLoopa
+                ElseIf (previous = 0) Then
+                    previous = arr(index)
+                ElseIf (previous = arr(index)) Then
+                    new_arr(new_index) = previous * 2
+                    previous = 0
+                    new_index = new_index + 1
+                Else
+                    new_arr(new_index) = previous
+                    previous = arr(index)
+                    new_index = new_index + 1
+                End If
+ContinueLoopa:
+            Next
+            If (previous <> 0) Then
+                new_arr(new_index) = previous
+                new_index = new_index + 1
+            End If
+            For tmp = new_index To 4
+                new_arr(new_index) = 0
+                sensor = True
+            Next
+            'Debug.Print "sec"
+            'For index = 1 To 4
+            '    Debug.Print Str(index) & "->" & Str(new_arr(index))
+            'Next
+            For tmp = 1 To 4
+                Call add_cell(tmp, j, new_arr(tmp))
+            Next
+        Next
+    Case 2
+        'down case
+        'Debug.Print "Begin"
+        For j = 1 To 4
+            For i = 1 To 4
+                arr(i) = 0
+                new_arr(i) = 0
+            Next
+            For i = 4 To 1 Step -1
+                arr(5 - i) = ActiveSheet.Cells(i, j).Value
+                ActiveSheet.Cells(i, j).Value = ""
+                Call fill_colors(ActiveSheet.Cells(i, j))
+            Next
+            
+            previous = 0
+            new_index = 1
+            For index = 1 To 4
+                Debug.Print arr(index)
+                If (arr(index) = 0) Then
+                    GoTo ContinueLoop
+                ElseIf (previous = 0) Then
+                    previous = arr(index)
+                ElseIf (previous = arr(index)) Then
+                    new_arr(new_index) = previous * 2
+                    previous = 0
+                    new_index = new_index + 1
+                Else
+                    new_arr(new_index) = previous
+                    previous = arr(index)
+                    new_index = new_index + 1
+                End If
+ContinueLoop:
+            Next
+            If (previous <> 0) Then
+                new_arr(new_index) = previous
+                new_index = new_index + 1
+            End If
+            For tmp = new_index To 4
+                new_arr(new_index) = 0
+                sensor = True
+            Next
+            'Debug.Print "sec"
+            'For index = 1 To 4
+            '    Debug.Print Str(index) & "->" & Str(new_arr(index))
+            'Next
+            For tmp = 4 To 1 Step -1
+                Call add_cell(tmp, j, new_arr(5 - tmp))
+            Next
+        Next
+    Case 3
+        'left case
+        'Debug.Print "Begin"
+        For j = 1 To 4
+            For i = 1 To 4
+                arr(i) = 0
+                new_arr(i) = 0
+            Next
+            For i = 1 To 4
+                arr(i) = ActiveSheet.Cells(j, i).Value
+                ActiveSheet.Cells(j, i).Value = ""
+                Call fill_colors(ActiveSheet.Cells(j, i))
+            Next
+            
+            previous = 0
+            new_index = 1
+            For index = 1 To 4
+                Debug.Print arr(index)
+                If (arr(index) = 0) Then
+                    GoTo ContinueLoopc
+                ElseIf (previous = 0) Then
+                    previous = arr(index)
+                ElseIf (previous = arr(index)) Then
+                    new_arr(new_index) = previous * 2
+                    previous = 0
+                    new_index = new_index + 1
+                Else
+                    new_arr(new_index) = previous
+                    previous = arr(index)
+                    new_index = new_index + 1
+                End If
+ContinueLoopc:
+            Next
+            If (previous <> 0) Then
+                new_arr(new_index) = previous
+                new_index = new_index + 1
+            End If
+            For tmp = new_index To 4
+                new_arr(new_index) = 0
+                sensor = True
+            Next
+            'Debug.Print "sec"
+            'For index = 1 To 4
+            '    Debug.Print Str(index) & "->" & Str(new_arr(index))
+            'Next
+            For tmp = 1 To 4
+                Call add_cell(j, tmp, new_arr(tmp))
+            Next
+        Next
+    Case 4
+        'right case
+        'Debug.Print "Begin"
+        For j = 1 To 4
+            For i = 1 To 4
+                arr(i) = 0
+                new_arr(i) = 0
+            Next
+            For i = 4 To 1 Step -1
+                arr(5 - i) = ActiveSheet.Cells(j, i).Value
+                ActiveSheet.Cells(j, i).Value = ""
+                Call fill_colors(ActiveSheet.Cells(j, i))
+            Next
+            
+            previous = 0
+            new_index = 1
+            For index = 1 To 4
+                Debug.Print arr(index)
+                If (arr(index) = 0) Then
+                    GoTo ContinueLoopd
+                ElseIf (previous = 0) Then
+                    previous = arr(index)
+                ElseIf (previous = arr(index)) Then
+                    new_arr(new_index) = previous * 2
+                    previous = 0
+                    new_index = new_index + 1
+                Else
+                    new_arr(new_index) = previous
+                    previous = arr(index)
+                    new_index = new_index + 1
+                End If
+ContinueLoopd:
+            Next
+            If (previous <> 0) Then
+                new_arr(new_index) = previous
+                new_index = new_index + 1
+            End If
+            For tmp = new_index To 4
+                new_arr(new_index) = 0
+                sensor = True
+            Next
+            'Debug.Print "sec"
+            'For index = 1 To 4
+            '    Debug.Print Str(index) & "->" & Str(new_arr(index))
+            'Next
+            For tmp = 4 To 1 Step -1
+                Call add_cell(j, tmp, new_arr(5 - tmp))
+            Next
+        Next
+    End Select
+    If (Not sensor) Then
+        MsgBox "Oops, game end. Try again!"
+        init
+    Else
+        generate_new
+    End If
+End Sub
+
