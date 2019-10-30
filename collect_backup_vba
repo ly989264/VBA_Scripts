@@ -1,0 +1,137 @@
+Option Explicit
+
+Sub collect()
+    ' Variable declarations
+    Dim target_workbook As Workbook
+    Dim result_workbook As Workbook
+    Dim current_worksheet As Worksheet
+    Dim result_worksheet As Worksheet
+    Dim data_row_num As Integer
+    Dim data_column_num As Integer
+    Dim msgresult As Integer
+    Dim inputresult As String
+    Dim next_row As Integer
+    Dim sheet As Worksheet
+    Dim excludes() As String
+    Dim ex() As Integer
+    Dim i As Integer
+    Dim j As Integer
+    
+    ' Because set the button in the current workbook, can safely assume ActiveWorkBook is the current workbook
+    Set result_workbook = ActiveWorkbook
+    ' Get the target workbook name from user
+    inputresult = Application.InputBox("Enter the workbook name, possibly with suffix")
+    ' Check the status of the target workbook
+    On Error Resume Next
+    Set target_workbook = Application.Workbooks(inputresult)
+    On Error GoTo 0
+    If target_workbook Is Nothing Then
+        ' the target workbook is not available
+        MsgBox ("Please check whether the target workbook is open or not")
+        MsgBox ("Exit procedure")
+        Exit Sub
+    End If
+    For Each sheet In result_workbook.Worksheets
+        If sheet.Name = "summary" Then
+            msgresult = MsgBox("WorkSheet summary already exists, ready to remove?", vbYesNo)
+            Select Case msgresult
+                Case vbYes
+                    ' remove the worksheet
+                    Application.DisplayAlerts = False
+                    sheet.Delete
+                    Application.DisplayAlerts = True
+                Case vbNo
+                    ' exit the procedure
+                    MsgBox ("Exit the procedure")
+                    Exit Sub
+            End Select
+        End If
+    Next sheet
+    
+    ' add new worksheet with the name of summary
+    Set result_worksheet = result_workbook.Worksheets.Add
+    result_worksheet.Name = "summary"
+    
+    ' get the basic info about each tab in the source workbook
+    Set current_worksheet = target_workbook.Worksheets(1)
+    Debug.Print (current_worksheet.Name)
+    data_row_num = current_worksheet.Cells(current_worksheet.Rows.Count, "A").End(xlUp).Row - 1
+    data_column_num = current_worksheet.Cells(1, Columns.Count).End(xlToLeft).Column - 1
+    msgresult = MsgBox("Do you want to add exclusive columns?", vbYesNo)
+    Select Case msgresult
+        Case vbYes
+            inputresult = Application.InputBox(prompt:="Enter the excluded column indexes, separated by comma", Type:=2)
+            excludes = Split(inputresult, ",")
+            ReDim ex(UBound(excludes) - LBound(excludes) + 1) As Integer
+            For i = 0 To UBound(excludes)
+                ex(i) = CInt(excludes(i))
+            Next i
+        Case vbNo
+            MsgBox ("In this situation, all columns will be reserved, but all non-numeric values will be treated as 0")
+            ReDim ex(0) As Integer
+    End Select
+    
+    j = 0
+    ' copy titles
+    For i = 0 To data_column_num
+        If UBound(ex) = 0 Then
+            result_worksheet.Cells(1, j + 2).Value = current_worksheet.Cells(1, i + 2).Value
+            j = j + 1
+        ElseIf Not check_exist(ex, i + 2) Then
+            result_worksheet.Cells(1, j + 2).Value = current_worksheet.Cells(1, i + 2).Value
+            j = j + 1
+        End If
+    Next i
+    
+    next_row = 2
+    
+    For Each current_worksheet In target_workbook.Worksheets
+        Call collect_sum(current_worksheet, result_worksheet, data_row_num, data_column_num, next_row, ex)
+        next_row = next_row + 1
+    Next current_worksheet
+
+End Sub
+
+Sub collect_sum(current_worksheet As Worksheet, target_worksheet As Worksheet, data_row_num As Integer, data_column_num As Integer, next_row_index As Integer, ex() As Integer)
+    Dim values() As Double
+    Dim i As Integer
+    Dim j As Integer
+    Dim real_data_row_num As Integer
+    
+    real_data_row_num = current_worksheet.Cells(current_worksheet.Rows.Count, "A").End(xlUp).Row - 1
+    
+    ReDim values(0 To data_column_num) As Double
+    For i = 0 To data_column_num - 1
+        If UBound(ex) = 0 Then
+            values(i) = WorksheetFunction.Sum(current_worksheet.Range(current_worksheet.Cells(2, i + 2), current_worksheet.Cells(real_data_row_num + 1, i + 2)))
+        ElseIf Not check_exist(ex, i + 2) Then
+            values(i) = WorksheetFunction.Sum(current_worksheet.Range(current_worksheet.Cells(2, i + 2), current_worksheet.Cells(real_data_row_num + 1, i + 2)))
+        End If
+    Next i
+    target_worksheet.Cells(next_row_index, 1).Value = current_worksheet.Name
+    j = 2
+    For i = 0 To data_column_num - 1
+        If UBound(ex) = 0 Then
+            target_worksheet.Cells(next_row_index, j).Value = values(i)
+            j = j + 1
+        ElseIf Not check_exist(ex, i + 2) Then
+            target_worksheet.Cells(next_row_index, j).Value = values(i)
+            j = j + 1
+        End If
+    Next i
+    
+End Sub
+
+Function check_exist(x() As Integer, y As Integer) As Boolean
+    Dim i
+    For Each i In x
+        If i = y Then
+            check_exist = True
+            Exit Function
+        End If
+    Next i
+    check_exist = False
+End Function
+
+
+
