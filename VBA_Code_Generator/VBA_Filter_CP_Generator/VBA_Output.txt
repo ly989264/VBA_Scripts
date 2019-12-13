@@ -1,0 +1,358 @@
+Sub operation_1()
+    Dim current_workbook As Workbook
+    Dim target_workbook As Workbook
+    Dim current_worksheet As Worksheet
+    Dim target_worksheet As Worksheet
+    Dim row_num As Integer
+    Dim target_row_num As Integer
+    Dim arr_length As Integer
+    Dim current_arr_index As Integer
+    Dim i As Integer
+    Dim current_row_num As Integer
+    Dim a_arr() As String
+    Dim b_arr() As String
+    Dim c_arr() As String
+    Dim d_arr() As String
+    Dim g_arr() As String
+
+    Set current_workbook = ActiveWorkbook
+    Set target_workbook = ActiveWorkbook
+    Set current_worksheet = current_workbook.Worksheets("Core Payment List")
+    Set target_worksheet = target_workbook.Worksheets("Kinsei 413200")
+    row_num = current_worksheet.Range("R" & Rows.Count).End(xlUp).Row
+    Redim a_arr(row_num) As String
+    Redim b_arr(row_num) As String
+    Redim c_arr(row_num) As String
+    Redim d_arr(row_num) As String
+    Redim g_arr(row_num) As String
+    arr_length = 0
+    current_arr_index = 0
+    target_row_num = target_worksheet.Range("A" & Rows.Count).End(xlUp).Row
+
+    For i = 2 To row_num
+        If current_worksheet.Cells(i, 18).Value <> "CSQ001" And current_worksheet.Cells(i, 18).Value <> "DES001" Then
+        If current_worksheet.Cells(i, 10).Value = "Cash" Or current_worksheet.Cells(i, 10).Value = "EFTPOS" Then
+            a_arr(current_arr_index) = current_worksheet.Cells(i, 2).Value
+            b_arr(current_arr_index) = current_worksheet.Cells(i, 8).Value
+            c_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            d_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            g_arr(current_arr_index) = current_worksheet.Cells(i, 18).Value
+            current_arr_index = current_arr_index + 1
+        End If
+        End If
+    Next i
+
+    target_worksheet.Rows("2:" & target_row_num).EntireRow.Delete
+    current_row_num = 2
+    Application.ScreenUpdating = False
+
+    For i = 0 To current_arr_index - 1
+        target_worksheet.Cells(current_row_num, 1).Value = a_arr(i)
+        target_worksheet.Cells(current_row_num, 2).Value = b_arr(i)
+        target_worksheet.Cells(current_row_num, 3).Value = c_arr(i)
+        target_worksheet.Cells(current_row_num, 4).Value = d_arr(i)
+        target_worksheet.Cells(current_row_num, 5).Value = "WBC -413200"
+        target_worksheet.Cells(current_row_num, 6).Value = "000-0000-1010"
+        target_worksheet.Cells(current_row_num, 7).Value = g_arr(i)
+        current_row_num = current_row_num + 1
+    Next i
+    Application.ScreenUpdating = True
+End Sub
+Sub operation_2()
+    Dim current_workbook As Workbook
+    Dim target_workbook As Workbook
+    Dim current_worksheet As Worksheet
+    Dim target_worksheet As Worksheet
+    Dim row_num As Integer
+    Dim target_row_num As Integer
+    Dim arr_length As Integer
+    Dim current_arr_index As Integer
+    Dim i As Integer
+    Dim current_row_num As Integer
+    Dim a_arr() As String
+    Dim b_arr() As String
+    Dim c_arr() As String
+    Dim d_arr() As String
+    Dim g_arr() As String
+
+    Set current_workbook = ActiveWorkbook
+    Set target_workbook = ActiveWorkbook
+    Set current_worksheet = current_workbook.Worksheets("Core Payment List")
+    Set target_worksheet = target_workbook.Worksheets("Credit card payment")
+    row_num = current_worksheet.Range("J" & Rows.Count).End(xlUp).Row
+    Redim a_arr(row_num) As String
+    Redim b_arr(row_num) As String
+    Redim c_arr(row_num) As String
+    Redim d_arr(row_num) As String
+    Redim g_arr(row_num) As String
+    arr_length = 0
+    current_arr_index = 0
+    target_row_num = target_worksheet.Range("A" & Rows.Count).End(xlUp).Row
+
+    For i = 2 To row_num
+        If current_worksheet.Cells(i, 10).Value = "Credit Card" Then
+            a_arr(current_arr_index) = current_worksheet.Cells(i, 2).Value
+            b_arr(current_arr_index) = current_worksheet.Cells(i, 8).Value
+            c_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            d_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            g_arr(current_arr_index) = current_worksheet.Cells(i, 18).Value
+            current_arr_index = current_arr_index + 1
+        End If
+    Next i
+
+    target_worksheet.Rows("2:" & target_row_num).EntireRow.Delete
+    current_row_num = 2
+    Application.ScreenUpdating = False
+
+    For i = 0 To current_arr_index - 1
+        target_worksheet.Cells(current_row_num, 1).Value = a_arr(i)
+        target_worksheet.Cells(current_row_num, 2).Value = b_arr(i)
+        target_worksheet.Cells(current_row_num, 3).Value = c_arr(i)
+        target_worksheet.Cells(current_row_num, 4).Value = d_arr(i)
+        target_worksheet.Cells(current_row_num, 5).Value = "WBC"
+        target_worksheet.Cells(current_row_num, 6).Value = "000-0000-1000"
+        target_worksheet.Cells(current_row_num, 7).Value = g_arr(i)
+        current_row_num = current_row_num + 1
+    Next i
+    Application.ScreenUpdating = True
+End Sub
+Sub operation_3()
+    Dim current_workbook As Workbook
+    Dim target_workbook As Workbook
+    Dim current_worksheet As Worksheet
+    Dim target_worksheet As Worksheet
+    Dim row_num As Integer
+    Dim target_row_num As Integer
+    Dim arr_length As Integer
+    Dim current_arr_index As Integer
+    Dim i As Integer
+    Dim current_row_num As Integer
+    Dim a_arr() As String
+    Dim b_arr() As String
+    Dim c_arr() As String
+    Dim d_arr() As String
+    Dim g_arr() As String
+
+    Set current_workbook = ActiveWorkbook
+    Set target_workbook = ActiveWorkbook
+    Set current_worksheet = current_workbook.Worksheets("Core Payment List")
+    Set target_worksheet = target_workbook.Worksheets("Kinsei 413198")
+    row_num = current_worksheet.Range("R" & Rows.Count).End(xlUp).Row
+    Redim a_arr(row_num) As String
+    Redim b_arr(row_num) As String
+    Redim c_arr(row_num) As String
+    Redim d_arr(row_num) As String
+    Redim g_arr(row_num) As String
+    arr_length = 0
+    current_arr_index = 0
+    target_row_num = target_worksheet.Range("A" & Rows.Count).End(xlUp).Row
+
+    For i = 2 To row_num
+        If current_worksheet.Cells(i, 18).Value = "CSQ001" Or current_worksheet.Cells(i, 18).Value = "DES001" Then
+            a_arr(current_arr_index) = current_worksheet.Cells(i, 2).Value
+            b_arr(current_arr_index) = current_worksheet.Cells(i, 8).Value
+            c_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            d_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            g_arr(current_arr_index) = current_worksheet.Cells(i, 18).Value
+            current_arr_index = current_arr_index + 1
+        End If
+    Next i
+
+    target_worksheet.Rows("2:" & target_row_num).EntireRow.Delete
+    current_row_num = 2
+    Application.ScreenUpdating = False
+
+    For i = 0 To current_arr_index - 1
+        target_worksheet.Cells(current_row_num, 1).Value = a_arr(i)
+        target_worksheet.Cells(current_row_num, 2).Value = b_arr(i)
+        target_worksheet.Cells(current_row_num, 3).Value = c_arr(i)
+        target_worksheet.Cells(current_row_num, 4).Value = d_arr(i)
+        target_worksheet.Cells(current_row_num, 5).Value = "WBC"
+        target_worksheet.Cells(current_row_num, 6).Value = "000-0000-1000"
+        target_worksheet.Cells(current_row_num, 7).Value = g_arr(i)
+        current_row_num = current_row_num + 1
+    Next i
+    Application.ScreenUpdating = True
+End Sub
+Sub operation_4()
+    Dim current_workbook As Workbook
+    Dim target_workbook As Workbook
+    Dim current_worksheet As Worksheet
+    Dim target_worksheet As Worksheet
+    Dim row_num As Integer
+    Dim target_row_num As Integer
+    Dim arr_length As Integer
+    Dim current_arr_index As Integer
+    Dim i As Integer
+    Dim current_row_num As Integer
+    Dim a_arr() As String
+    Dim b_arr() As String
+    Dim c_arr() As String
+    Dim d_arr() As String
+    Dim g_arr() As String
+
+    Set current_workbook = ActiveWorkbook
+    Set target_workbook = ActiveWorkbook
+    Set current_worksheet = current_workbook.Worksheets("Jigsaw Payment List")
+    Set target_worksheet = target_workbook.Worksheets("Ezidebit")
+    row_num = current_worksheet.Range("K" & Rows.Count).End(xlUp).Row
+    Redim a_arr(row_num) As String
+    Redim b_arr(row_num) As String
+    Redim c_arr(row_num) As String
+    Redim d_arr(row_num) As String
+    Redim g_arr(row_num) As String
+    arr_length = 0
+    current_arr_index = 0
+    target_row_num = target_worksheet.Range("A" & Rows.Count).End(xlUp).Row
+
+    For i = 2 To row_num
+        If current_worksheet.Cells(i, 11).Value = "Ezi Debit" Then
+            a_arr(current_arr_index) = current_worksheet.Cells(i, 2).Value
+            b_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            c_arr(current_arr_index) = current_worksheet.Cells(i, 10).Value
+            d_arr(current_arr_index) = current_worksheet.Cells(i, 10).Value
+            g_arr(current_arr_index) = current_worksheet.Cells(i, 18).Value
+            current_arr_index = current_arr_index + 1
+        End If
+    Next i
+
+    target_worksheet.Rows("2:" & target_row_num).EntireRow.Delete
+    current_row_num = 2
+    Application.ScreenUpdating = False
+
+    For i = 0 To current_arr_index - 1
+        target_worksheet.Cells(current_row_num, 1).Value = a_arr(i)
+        target_worksheet.Cells(current_row_num, 2).Value = b_arr(i)
+        target_worksheet.Cells(current_row_num, 3).Value = c_arr(i)
+        target_worksheet.Cells(current_row_num, 4).Value = d_arr(i)
+        target_worksheet.Cells(current_row_num, 5).Value = "WBC -408024"
+        target_worksheet.Cells(current_row_num, 6).Value = "000-0000-1020"
+        target_worksheet.Cells(current_row_num, 7).Value = g_arr(i)
+        current_row_num = current_row_num + 1
+    Next i
+    Application.ScreenUpdating = True
+End Sub
+Sub operation_5()
+    Dim current_workbook As Workbook
+    Dim target_workbook As Workbook
+    Dim current_worksheet As Worksheet
+    Dim target_worksheet As Worksheet
+    Dim row_num As Integer
+    Dim target_row_num As Integer
+    Dim arr_length As Integer
+    Dim current_arr_index As Integer
+    Dim i As Integer
+    Dim current_row_num As Integer
+    Dim a_arr() As String
+    Dim b_arr() As String
+    Dim c_arr() As String
+    Dim d_arr() As String
+    Dim g_arr() As String
+
+    Set current_workbook = ActiveWorkbook
+    Set target_workbook = ActiveWorkbook
+    Set current_worksheet = current_workbook.Worksheets("Jigsaw Payment List")
+    Set target_worksheet = target_workbook.Worksheets("Credit card payment")
+    row_num = current_worksheet.Range("K" & Rows.Count).End(xlUp).Row
+    Redim a_arr(row_num) As String
+    Redim b_arr(row_num) As String
+    Redim c_arr(row_num) As String
+    Redim d_arr(row_num) As String
+    Redim g_arr(row_num) As String
+    arr_length = 0
+    current_arr_index = 0
+    target_row_num = target_worksheet.Range("A" & Rows.Count).End(xlUp).Row
+
+    For i = 2 To row_num
+        If current_worksheet.Cells(i, 11).Value = "Credit Card" Then
+            a_arr(current_arr_index) = current_worksheet.Cells(i, 2).Value
+            b_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            c_arr(current_arr_index) = current_worksheet.Cells(i, 10).Value
+            d_arr(current_arr_index) = current_worksheet.Cells(i, 10).Value
+            g_arr(current_arr_index) = current_worksheet.Cells(i, 18).Value
+            current_arr_index = current_arr_index + 1
+        End If
+    Next i
+
+    current_row_num = target_row_num + 1
+    Application.ScreenUpdating = False
+
+    For i = 0 To current_arr_index - 1
+        target_worksheet.Cells(current_row_num, 1).Value = a_arr(i)
+        target_worksheet.Cells(current_row_num, 2).Value = b_arr(i)
+        target_worksheet.Cells(current_row_num, 3).Value = c_arr(i)
+        target_worksheet.Cells(current_row_num, 4).Value = d_arr(i)
+        target_worksheet.Cells(current_row_num, 5).Value = "WBC"
+        target_worksheet.Cells(current_row_num, 6).Value = "000-0000-1000"
+        target_worksheet.Cells(current_row_num, 7).Value = g_arr(i)
+        current_row_num = current_row_num + 1
+    Next i
+    Application.ScreenUpdating = True
+End Sub
+Sub operation_6()
+    Dim current_workbook As Workbook
+    Dim target_workbook As Workbook
+    Dim current_worksheet As Worksheet
+    Dim target_worksheet As Worksheet
+    Dim row_num As Integer
+    Dim target_row_num As Integer
+    Dim arr_length As Integer
+    Dim current_arr_index As Integer
+    Dim i As Integer
+    Dim current_row_num As Integer
+    Dim a_arr() As String
+    Dim b_arr() As String
+    Dim c_arr() As String
+    Dim d_arr() As String
+    Dim g_arr() As String
+
+    Set current_workbook = ActiveWorkbook
+    Set target_workbook = ActiveWorkbook
+    Set current_worksheet = current_workbook.Worksheets("Jigsaw Payment List")
+    Set target_worksheet = target_workbook.Worksheets("Jigsaw 408024")
+    row_num = current_worksheet.Range("K" & Rows.Count).End(xlUp).Row
+    Redim a_arr(row_num) As String
+    Redim b_arr(row_num) As String
+    Redim c_arr(row_num) As String
+    Redim d_arr(row_num) As String
+    Redim g_arr(row_num) As String
+    arr_length = 0
+    current_arr_index = 0
+    target_row_num = target_worksheet.Range("A" & Rows.Count).End(xlUp).Row
+
+    For i = 2 To row_num
+        If current_worksheet.Cells(i, 11).Value = "EFTPOS" Then
+            a_arr(current_arr_index) = current_worksheet.Cells(i, 2).Value
+            b_arr(current_arr_index) = current_worksheet.Cells(i, 9).Value
+            c_arr(current_arr_index) = current_worksheet.Cells(i, 10).Value
+            d_arr(current_arr_index) = current_worksheet.Cells(i, 10).Value
+            g_arr(current_arr_index) = current_worksheet.Cells(i, 18).Value
+            current_arr_index = current_arr_index + 1
+        End If
+    Next i
+
+    target_worksheet.Rows("2:" & target_row_num).EntireRow.Delete
+    current_row_num = 2
+    Application.ScreenUpdating = False
+
+    For i = 0 To current_arr_index - 1
+        target_worksheet.Cells(current_row_num, 1).Value = a_arr(i)
+        target_worksheet.Cells(current_row_num, 2).Value = b_arr(i)
+        target_worksheet.Cells(current_row_num, 3).Value = c_arr(i)
+        target_worksheet.Cells(current_row_num, 4).Value = d_arr(i)
+        target_worksheet.Cells(current_row_num, 5).Value = "WBC -408024"
+        target_worksheet.Cells(current_row_num, 6).Value = "000-0000-1020"
+        target_worksheet.Cells(current_row_num, 7).Value = g_arr(i)
+        current_row_num = current_row_num + 1
+    Next i
+    Application.ScreenUpdating = True
+End Sub
+Sub wrapper()
+    Call operation_1
+    Call operation_2
+    Call operation_3
+    Call operation_4
+    Call operation_5
+    Call operation_6
+End Sub
+

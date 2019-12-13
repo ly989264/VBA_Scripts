@@ -1,0 +1,230 @@
+{
+  "job": [
+    {
+      "worksheet_configuration": {
+        "current_workbook": null,
+        "target_workbook": null,
+        "current_worksheet": "Core Payment List",
+        "target_worksheet": "Kinsei 413200"
+      },
+      "filter": {
+        "filters": [
+          {
+            "column_str": "R",
+            "operator": "AND",
+            "criteria": [
+              "<>CSQ001",
+              "<>DES001"
+            ]
+          },
+          {
+            "column_str": "J",
+            "operator": "OR",
+            "criteria": [
+              "Cash",
+              "EFTPOS"
+            ]
+          }
+        ]
+      },
+      "copy": {
+        "col2col": {
+          "A": "B",
+          "B": "H",
+          "C": "I",
+          "D": "I",
+          "G": "R"
+        },
+        "fix2col": {
+          "E": "WBC -413200",
+          "F": "000-0000-1010"
+        }
+      },
+      "options": {
+        "append": "false",
+        "disable_screen_updating": "true"
+      }
+    },
+    {
+      "worksheet_configuration": {
+        "current_workbook": null,
+        "target_workbook": null,
+        "current_worksheet": "Core Payment List",
+        "target_worksheet": "Credit card payment"
+      },
+      "filter": {
+        "filters": [
+          {
+            "column_str": "J",
+            "operator": "AND",
+            "criteria": [
+              "Credit Card"
+            ]
+          }
+        ]
+      },
+      "copy": {
+        "col2col": {
+          "A": "B",
+          "B": "H",
+          "C": "I",
+          "D": "I",
+          "G": "R"
+        },
+        "fix2col": {
+          "E": "WBC",
+          "F": "000-0000-1000"
+        }
+      },
+      "options": {
+        "append": "false",
+        "disable_screen_updating": "true"
+      }
+    },
+    {
+      "worksheet_configuration": {
+        "current_workbook": null,
+        "target_workbook": null,
+        "current_worksheet": "Core Payment List",
+        "target_worksheet": "Kinsei 413198"
+      },
+      "filter": {
+        "filters": [
+          {
+            "column_str": "R",
+            "operator": "OR",
+            "criteria": [
+              "CSQ001",
+              "DES001"
+            ]
+          }
+        ]
+      },
+      "copy": {
+        "col2col": {
+          "A": "B",
+          "B": "H",
+          "C": "I",
+          "D": "I",
+          "G": "R"
+        },
+        "fix2col": {
+          "E": "WBC",
+          "F": "000-0000-1000"
+        }
+      },
+      "options": {
+        "append": "false",
+        "disable_screen_updating": "true"
+      }
+    },
+    {
+      "worksheet_configuration": {
+        "current_workbook": null,
+        "target_workbook": null,
+        "current_worksheet": "Jigsaw Payment List",
+        "target_worksheet": "Ezidebit"
+      },
+      "filter": {
+        "filters": [
+          {
+            "column_str": "K",
+            "operator": "OR",
+            "criteria": [
+              "Ezi Debit"
+            ]
+          }
+        ]
+      },
+      "copy": {
+        "col2col": {
+          "A": "B",
+          "B": "I",
+          "C": "J",
+          "D": "J",
+          "G": "R"
+        },
+        "fix2col": {
+          "E": "WBC -408024",
+          "F": "000-0000-1020"
+        }
+      },
+      "options": {
+        "append": "false",
+        "disable_screen_updating": "true"
+      }
+    },
+    {
+      "worksheet_configuration": {
+        "current_workbook": null,
+        "target_workbook": null,
+        "current_worksheet": "Jigsaw Payment List",
+        "target_worksheet": "Credit card payment"
+      },
+      "filter": {
+        "filters": [
+          {
+            "column_str": "K",
+            "operator": "OR",
+            "criteria": [
+              "Credit Card"
+            ]
+          }
+        ]
+      },
+      "copy": {
+        "col2col": {
+          "A": "B",
+          "B": "I",
+          "C": "J",
+          "D": "J",
+          "G": "R"
+        },
+        "fix2col": {
+          "E": "WBC",
+          "F": "000-0000-1000"
+        }
+      },
+      "options": {
+        "append": "true",
+        "disable_screen_updating": "true"
+      }
+    },
+    {
+      "worksheet_configuration": {
+        "current_workbook": null,
+        "target_workbook": null,
+        "current_worksheet": "Jigsaw Payment List",
+        "target_worksheet": "Jigsaw 408024"
+      },
+      "filter": {
+        "filters": [
+          {
+            "column_str": "K",
+            "operator": "OR",
+            "criteria": [
+              "EFTPOS"
+            ]
+          }
+        ]
+      },
+      "copy": {
+        "col2col": {
+          "A": "B",
+          "B": "I",
+          "C": "J",
+          "D": "J",
+          "G": "R"
+        },
+        "fix2col": {
+          "E": "WBC -408024",
+          "F": "000-0000-1020"
+        }
+      },
+      "options": {
+        "append": "false",
+        "disable_screen_updating": "true"
+      }
+    }
+  ]
+}
